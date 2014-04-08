@@ -174,7 +174,8 @@
         UICollectionViewLayoutAttributes *headerAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                                                                                                   atIndexPath:sectionIndexPath];
         
-        if (! CGSizeEqualToSize(headerAttributes.frame.size, CGSizeZero) && CGRectIntersectsRect(headerAttributes.frame, rect)) {
+        CGSize size = headerAttributes.frame.size;
+        if (size.height != 0 && size.width != 0 && CGRectIntersectsRect(headerAttributes.frame, rect)) {
             [layoutAttributes addObject:headerAttributes];
         }
             
@@ -188,8 +189,8 @@
         
         UICollectionViewLayoutAttributes *footerAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter
                                                                                                   atIndexPath:sectionIndexPath];
-        
-        if (! CGSizeEqualToSize(footerAttributes.frame.size, CGSizeZero) && CGRectIntersectsRect(footerAttributes.frame, rect)) {
+        size = footerAttributes.frame.size;
+        if (size.width != 0 && size.height != 0 && CGRectIntersectsRect(footerAttributes.frame, rect)) {
             [layoutAttributes addObject:footerAttributes];
         }
     }
