@@ -104,10 +104,10 @@
     [self clearItemFrames];
     
     // create new item frame sections
-    _numberOfItemFrameSections = [self.collectionView numberOfSections];
+    _numberOfItemFrameSections = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
     _itemFrameSections = (CGRect **)malloc(sizeof(CGRect *) * _numberOfItemFrameSections);
-    
-    for (int section = 0; section < [self.collectionView numberOfSections]; section++) {
+
+    for (int section = 0; section < _numberOfItemFrameSections; section++) {
         // add new item frames array to sections array
         NSInteger numberOfItemsInSections = [self.collectionView numberOfItemsInSection:section];
         CGRect *itemFrames = (CGRect *)malloc(sizeof(CGRect) * numberOfItemsInSections);
@@ -167,8 +167,9 @@
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray *layoutAttributes = [NSMutableArray array];
-    
-    for (NSInteger section = 0, n = [self.collectionView numberOfSections]; section < n; section++) {
+    NSInteger n = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
+
+    for (NSInteger section = 0; section < n; section++) {
         NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
 
         UICollectionViewLayoutAttributes *headerAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader
@@ -254,7 +255,9 @@
 - (CGFloat)totalItemSizeForSection:(NSInteger)section preferredRowSize:(CGFloat)preferredRowSize
 {
     CGFloat totalItemSize = 0;
-    for (NSInteger i = 0, n = [self.collectionView numberOfItemsInSection:section]; i < n; i++) {
+    NSUInteger n = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section];
+    
+    for (NSInteger i = 0; i < n; i++) {
         CGSize preferredSize = [self.delegate collectionView:self.collectionView layout:self preferredSizeForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:section]];
         
         if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
