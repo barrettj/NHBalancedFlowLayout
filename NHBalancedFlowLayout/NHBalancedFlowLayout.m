@@ -286,6 +286,12 @@
 - (void)setFrames:(CGRect *)frames forItemsInSection:(NSInteger)section numberOfRows:(NSUInteger)numberOfRows sectionOffset:(CGPoint)sectionOffset sectionSize:(CGSize *)sectionSize
 {
     NSArray *weights = [self weightsForItemsInSection:section];
+    
+    if (weights.count == 0) {
+        *sectionSize = CGSizeZero;
+        return;
+    }
+
     NSArray *partition = [NHLinearPartition linearPartitionForSequence:weights numberOfPartitions:numberOfRows];
     
     int i = 0;
