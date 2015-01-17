@@ -109,7 +109,7 @@
 
     for (int section = 0; section < _numberOfItemFrameSections; section++) {
         // add new item frames array to sections array
-        NSInteger numberOfItemsInSections = [self.collectionView numberOfItemsInSection:section];
+        NSInteger numberOfItemsInSections = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section];
         CGRect *itemFrames = (CGRect *)malloc(sizeof(CGRect) * numberOfItemsInSections);
         _itemFrameSections[section] = itemFrames;
         
@@ -180,7 +180,7 @@
             [layoutAttributes addObject:headerAttributes];
         }
             
-        for (int i = 0; i < [self.collectionView numberOfItemsInSection:section]; i++) {
+        for (int i = 0; i < [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section]; i++) {
             CGRect itemFrame = _itemFrameSections[section][i];
             if (CGRectIntersectsRect(rect, itemFrame)) {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:section];
@@ -274,7 +274,7 @@
 - (NSArray *)weightsForItemsInSection:(NSInteger)section
 {
     NSMutableArray *weights = [NSMutableArray array];
-    for (NSInteger i = 0, n = [self.collectionView numberOfItemsInSection:section]; i < n; i++) {
+    for (NSInteger i = 0, n = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section]; i < n; i++) {
         CGSize preferredSize = [self.delegate collectionView:self.collectionView layout:self preferredSizeForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:section]];
         NSInteger aspectRatio = self.scrollDirection == UICollectionViewScrollDirectionVertical ? roundf((preferredSize.width / preferredSize.height) * 100) : roundf((preferredSize.height / preferredSize.width) * 100);
         [weights addObject:@(aspectRatio)];
