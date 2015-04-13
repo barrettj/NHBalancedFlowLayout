@@ -239,6 +239,8 @@
 
 - (CGRect)headerFrameForSection:(NSInteger)section
 {
+    if (section >= self.headerFrames.count) return CGRectZero;
+    
     return [[self.headerFrames objectAtIndex:section] CGRectValue];
 }
 
